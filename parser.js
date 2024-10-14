@@ -33,6 +33,7 @@ export class Parser{
                     break;
                 }
                 case ")":{
+                    if(splitStart==i)break;
                     const word = fileStr.substring(splitStart,i);
                     this.processArray.push(word);
                     splitStart = i;
@@ -84,6 +85,10 @@ export class Parser{
             }
             case ".pow":{
                 this.processArray.push("@POW");
+                break;
+            }
+            case ".print":{
+                this.processArray.push("@PRINT");
                 break;
             }
         }
