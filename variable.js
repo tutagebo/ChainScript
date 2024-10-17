@@ -107,6 +107,7 @@ export class Variable{
 
 export class OpID{
     static IN = "@IN";
+    static OUT = "@OUT";
     static ADD = "@ADD";
     static SUB = "@SUB";
     static MUL = "@MUL";

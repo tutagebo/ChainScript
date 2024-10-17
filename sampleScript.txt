@@ -1,1 +1,3 @@
-x.in(1).add(2).then({y.in(3).sub(1).print(0);}).print(0);
+x.in(0).flag(0).add.(1).less(10).then({
+    x.out(0).add(1).print(0);
+}).jump(0)

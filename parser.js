@@ -77,6 +77,10 @@ export class Parser{
                 this.scopeArray[this.scopeIndex].push(OpID.IN);
                 break;
             }
+            case ".out":{
+                this.scopeArray[this.scopeIndex].push(OpID.OUT);
+                break;
+            }
             case ".add":{
                 this.scopeArray[this.scopeIndex].push(OpID.ADD);
                 break;
