@@ -1,7 +1,1 @@
-x.in(1).add(2).multi(3); //(1+2)*3
-//FizzBuzz
-y.in(1).flag().add(1).less(100).then({
-    tmp1.in(y).mod(3).equal(0).then({"fizz".print()});
-    tmp2.in(y).mod(5).equal(0).then({"buzz".print()});
-    tmp1.and(tmp2).not().then({y.print});
-}).back();
+x.in(1).add(2).then({y.in(3).sub(1).print(0);}).print(0);

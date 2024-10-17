@@ -1,19 +1,25 @@
+import { OpID } from "./variable.js";
+
 export class Parser{
-    /** @type {string[]} */
-    processArray = [];
+    /** @type {any[]} */
+    scopeArray = [];
+    scopeIndex = 0;
     /**
      * @param {String} fileStr 
      */
     constructor(fileStr){
         fileStr = fileStr.replace(/\s+/g, '');
+        this.scopeArray[this.scopeIndex] = [];
         let splitStart = 0;
+        /** @type {number[]} */
+        let returnScope = [];
         let isHead = true;
         for(let i=0;i<fileStr.length;i++){
             switch(fileStr[i]){
                 case ".":{
                     const word = fileStr.substring(splitStart,i);
                     if(isHead){
-                        this.processArray.push("@DEF", word);
+                        this.scopeArray[this.scopeIndex].push("@DEF", word);
                         isHead = false;
                     }
                     splitStart = i;
@@ -28,67 +34,111 @@ export class Parser{
                 }
                 case ",":{
                     const word = fileStr.substring(splitStart,i);
-                    this.processArray.push(word);
+                    this.scopeArray[this.scopeIndex].push(word);
                     splitStart = i;
                     break;
                 }
                 case ")":{
                     if(splitStart==i)break;
                     const word = fileStr.substring(splitStart,i);
-                    this.processArray.push(word);
+                    this.scopeArray[this.scopeIndex].push(word);
                     splitStart = i;
                     break;
                 }
                 case "{":{
-                    splitStart = i;
+                    returnScope.push(this.scopeIndex);
+                    this.scopeArray[this.scopeIndex].push(this.scopeArray.length);
+                    this.scopeIndex = this.scopeArray.length;
+                    this.scopeArray[this.scopeIndex] = [];
+                    isHead = true;
+                    splitStart = i+1;
                     break;
                 }
                 case "}":{
-                    splitStart = i;
+                    this.scopeArray[this.scopeIndex].push("@BACK");
+                    this.scopeIndex = returnScope.pop();
+                    isHead = false;
+                    splitStart = i+1;
                     break;
                 }
                 case ";":{
-                    this.processArray.push("@END");
+                    this.scopeArray[this.scopeIndex].push("@END");
                     isHead = true;
-                    splitStart = i;
+                    splitStart = i+1;
                     break;
                 }
             }
         }
-        //this.processArray.push("@FILE_END");
+        //this.scopeArray[this.scopeIndex].push("@FILE_END");
     }
     methodSwitch(word){
         switch(word){
             case ".in":{
-                this.processArray.push("@IN");
+                this.scopeArray[this.scopeIndex].push(OpID.IN);
                 break;
             }
             case ".add":{
-                this.processArray.push("@ADD");
+                this.scopeArray[this.scopeIndex].push(OpID.ADD);
                 break;
             }
             case ".sub":{
-                this.processArray.push("@SUB");
+                this.scopeArray[this.scopeIndex].push(OpID.SUB);
                 break;
             }
             case ".multi":{
-                this.processArray.push("@MUL");
+                this.scopeArray[this.scopeIndex].push(OpID.MUL);
                 break;
             }
             case ".div":{
-                this.processArray.push("@DIV");
+                this.scopeArray[this.scopeIndex].push(OpID.DIV);
                 break;
             }
             case ".mod":{
-                this.processArray.push("@MOD");
+                this.scopeArray[this.scopeIndex].push(OpID.MOD);
                 break;
             }
             case ".pow":{
-                this.processArray.push("@POW");
+                this.scopeArray[this.scopeIndex].push(OpID.POW);
                 break;
             }
             case ".print":{
-                this.processArray.push("@PRINT");
+                this.scopeArray[this.scopeIndex].push(OpID.PRINT);
+                break;
+            }
+            case ".equal":{
+                this.scopeArray[this.scopeIndex].push(OpID.EQUAL);
+                break;
+            }
+            case ".less":{
+                this.scopeArray[this.scopeIndex].push(OpID.LESS);
+                break;
+            }
+            case ".more":{
+                this.scopeArray[this.scopeIndex].push(OpID.MORE);
+                break;
+            }
+            case ".and":{
+                this.scopeArray[this.scopeIndex].push(OpID.AND);
+                break;
+            }
+            case ".or":{
+                this.scopeArray[this.scopeIndex].push(OpID.OR);
+                break;
+            }
+            case ".not":{
+                this.scopeArray[this.scopeIndex].push(OpID.NOT);
+                break;
+            }
+            case ".flag":{
+                this.scopeArray[this.scopeIndex].push(OpID.FLAG);
+                break;
+            }
+            case ".jump":{
+                this.scopeArray[this.scopeIndex].push(OpID.JUMP);
+                break;
+            }
+            case ".then":{
+                this.scopeArray[this.scopeIndex].push(OpID.THEN);
                 break;
             }
         }

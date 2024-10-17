@@ -1,6 +1,8 @@
 export class Variable{
     #name;
     _value;
+    _bool = false;
+    _flagArray =  [];
     #type = TypeID.Any;
     constructor(name){
         this.#name = name;
@@ -27,7 +29,7 @@ export class Variable{
      * @param {string} op 
      * @param {string} value 
      */
-    methodSwitch(op, arg){
+    numberMethodSwitch(op, arg){
         const value = parseInt(arg);
         switch(op){
             case OpID.ADD: {
@@ -60,10 +62,50 @@ export class Variable{
             }
         }
     }
+    boolMethodSwitch(op, arg){
+        const value = arg;
+        switch(op){
+            case OpID.EQUAL: {
+                this._bool = this._value == arg;
+                break;
+            }
+            case OpID.LESS: {
+                this._bool = this._value < arg;
+                break;
+            }
+            case OpID.MORE: {
+                this._bool = this._value > arg;
+                break;
+            }
+            case OpID.AND: {
+                this._bool = this._value && arg;
+                break;
+            }
+            case OpID.OR: {
+                this._bool = this._value || arg;
+                break;
+            }
+            case OpID.NOT: {
+                this._bool = !this._value;
+                break;
+            }
+        }
+    }
+    then(){
+
+    }
+    flag(arg,index){
+        this._flagArray[arg] = index;
+    }
+    getFlag(arg){
+        return this._flagArray[arg];
+    }
+    getBool(){
+        return this._bool;
+    }
 }
 
 export class OpID{
-    static All = ["@IN","@ADD","@SUB","@MUL","@DIV","@MOD","@POW","@PRINT"];
     static IN = "@IN";
     static ADD = "@ADD";
     static SUB = "@SUB";
@@ -72,6 +114,36 @@ export class OpID{
     static MOD = "@MOD";
     static POW = "@POW";
     static PRINT = "@PRINT";
+    static NumAll = [
+        this.IN,
+        this.ADD,
+        this.SUB,
+        this.MUL,
+        this.DIV,
+        this.MOD,
+        this.POW,
+        this.PRINT,
+    ];
+    static LESS = "@LESS";
+    static MORE = "@MORE";
+    static EQUAL = "@EQ";
+    static AND = "@AND";
+    static OR = "@OR";
+    static NOT = "@NOT";
+    static BoolAll = [
+        this.LESS,
+        this.MORE,
+        this.EQUAL,
+        this.AND,
+        this.OR,
+        this.NOT
+    ];
+    static FLAG = "@FLAG";
+    static JUMP = "@JUMP";
+    static THEN = "@THEN";
+    static DEF = "@DEF";
+    static END = "@END";
+    static BACK = "@BACK";
 }
 
 export class TypeID{
