@@ -9,6 +9,7 @@ export class Parser{
      */
     constructor(fileStr){
         fileStr = fileStr.replace(/\s+/g, '');
+
         this.scopeArray[this.scopeIndex] = [];
         let splitStart = 0;
         /** @type {number[]} */
@@ -77,8 +78,8 @@ export class Parser{
                 this.scopeArray[this.scopeIndex].push(OpID.IN);
                 break;
             }
-            case ".out":{
-                this.scopeArray[this.scopeIndex].push(OpID.OUT);
+            case ".copy":{
+                this.scopeArray[this.scopeIndex].push(OpID.COPY);
                 break;
             }
             case ".add":{
@@ -141,8 +142,20 @@ export class Parser{
                 this.scopeArray[this.scopeIndex].push(OpID.JUMP);
                 break;
             }
+            case ".skip":{
+                this.scopeArray[this.scopeIndex].push(OpID.SKIP);
+                break;
+            }
             case ".then":{
                 this.scopeArray[this.scopeIndex].push(OpID.THEN);
+                break;
+            }
+            case ".nop":{
+                this.scopeArray[this.scopeIndex].push(OpID.NOP);
+                break;
+            }
+            case ".break":{
+                this.scopeArray[this.scopeIndex].push(OpID.BREAK);
                 break;
             }
         }

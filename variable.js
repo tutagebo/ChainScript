@@ -7,6 +7,12 @@ export class Variable{
     constructor(name){
         this.#name = name;
     }
+    getName(){
+        return this.#name;
+    }
+    getValue(){
+        return this._value;
+    }
     /**
      * @param {string} value 
      */
@@ -19,7 +25,7 @@ export class Variable{
             }
             case /^"[^"]*"/.test(value): { //string
                 this.#type = TypeID.String;
-                this._value = value;
+                this._value = value.replace(/"/g,'');
                 break;
             }
         }
@@ -57,7 +63,7 @@ export class Variable{
                 break;
             }
             case OpID.PRINT: {
-                console.log(this._value);
+                console.log("chs: "+this._value);
                 break;
             }
         }
@@ -86,7 +92,7 @@ export class Variable{
                 break;
             }
             case OpID.NOT: {
-                this._bool = !this._value;
+                this._bool = !this._bool;
                 break;
             }
         }
@@ -107,7 +113,7 @@ export class Variable{
 
 export class OpID{
     static IN = "@IN";
-    static OUT = "@OUT";
+    static COPY = "@COPY";
     static ADD = "@ADD";
     static SUB = "@SUB";
     static MUL = "@MUL";
@@ -145,6 +151,9 @@ export class OpID{
     static DEF = "@DEF";
     static END = "@END";
     static BACK = "@BACK";
+    static SKIP = "@SKIP";
+    static NOP = "@NOP";
+    static BREAK = "@BREAK";
 }
 
 export class TypeID{
