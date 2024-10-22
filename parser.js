@@ -78,6 +78,10 @@ export class Parser{
                 this.scopeArray[this.scopeIndex].push(OpID.IN);
                 break;
             }
+            case ".del":{
+                this.scopeArray[this.scopeIndex].push(OpID.DEL);
+                break;
+            }
             case ".copy":{
                 this.scopeArray[this.scopeIndex].push(OpID.COPY);
                 break;
@@ -156,6 +160,26 @@ export class Parser{
             }
             case ".break":{
                 this.scopeArray[this.scopeIndex].push(OpID.BREAK);
+                break;
+            }
+            case ".funcDef":{
+                this.scopeArray[this.scopeIndex].push(OpID.FUNC);
+                break;
+            }
+            case ".argIn":{
+                this.scopeArray[this.scopeIndex].push(OpID.ARG_IN);
+                break;
+            }
+            case ".argOut":{
+                this.scopeArray[this.scopeIndex].push(OpID.ARG_OUT);
+                break;
+            }
+            case ".return":{
+                this.scopeArray[this.scopeIndex].push(OpID.RETURN);
+                break;
+            }
+            case ".exe":{
+                this.scopeArray[this.scopeIndex].push(OpID.EXE);
                 break;
             }
         }

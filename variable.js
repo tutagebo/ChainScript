@@ -97,8 +97,18 @@ export class Variable{
             }
         }
     }
-    then(){
-
+    defFunc(scope){
+        this.#type = TypeID.Function;
+        this._func_scope  = scope;
+    }
+    getFuncScope(){
+        return this._func_scope;
+    }
+    inArg(arg){
+        this._arg = arg;
+    }
+    getArg(){
+        return this._arg;
     }
     flag(arg,index){
         this._flagArray[arg] = index;
@@ -113,7 +123,21 @@ export class Variable{
 
 export class OpID{
     static IN = "@IN";
-    static COPY = "@COPY";
+    static DEL = "@DEL";
+    static DUP = "@DUP";
+    static FLAG = "@FLAG";
+    static JUMP = "@JUMP";
+    static THEN = "@THEN";
+    static DEF = "@DEF";
+    static END = "@END";
+    static BACK = "@BACK";
+    static SKIP = "@SKIP";
+    static NOP = "@NOP";
+    static BREAK = "@BREAK";
+    static UtilAll = [
+        this.IN,
+        this.DUP
+    ];
     static ADD = "@ADD";
     static SUB = "@SUB";
     static MUL = "@MUL";
@@ -122,7 +146,6 @@ export class OpID{
     static POW = "@POW";
     static PRINT = "@PRINT";
     static NumAll = [
-        this.IN,
         this.ADD,
         this.SUB,
         this.MUL,
@@ -131,6 +154,10 @@ export class OpID{
         this.POW,
         this.PRINT,
     ];
+    static CAT = "@CAT";
+    static COPY = "@COPY";
+    static LEN = "@LEN";
+
     static LESS = "@LESS";
     static MORE = "@MORE";
     static EQUAL = "@EQ";
@@ -145,19 +172,18 @@ export class OpID{
         this.OR,
         this.NOT
     ];
-    static FLAG = "@FLAG";
-    static JUMP = "@JUMP";
-    static THEN = "@THEN";
-    static DEF = "@DEF";
-    static END = "@END";
-    static BACK = "@BACK";
-    static SKIP = "@SKIP";
-    static NOP = "@NOP";
-    static BREAK = "@BREAK";
+
+    static FUNC = "@F_DEF";
+    static EXE = "@F_EXE";
+    static ARG_IN = "@ARG_IN";
+    static ARG_OUT = "@ARG_OUT";
+    static RETURN = "@RETURN";
 }
 
 export class TypeID{
     static Any = 0;
     static Number = 1;
     static String = 2;
+    static Array = 3;
+    static Function = 4;
 }
